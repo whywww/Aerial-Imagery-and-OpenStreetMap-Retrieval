@@ -42,23 +42,24 @@ def get_aerial_img(bounding_box):
     :param bounding_box: a list [min_lat, max_lat, min_lon, max_lon] containing the boundary of the images.
     :return: Nothing
     """
-    shutil.rmtree('../images')
+    if 'images' in os.listdir('../'):
+        shutil.rmtree('../images')
     min_lat, max_lat, min_lon, max_lon = bounding_box[0], bounding_box[1], bounding_box[2], bounding_box[3]
+    sample_interval = 0.00035
 
+    num_lat = int((max_lat-min_lat)/sample_interval)
+    num_long = int((max_lon-min_lon)/sample_interval)
 
-
-    latitudes = np.linspace(start=min_lat, stop=max_lat, num=40)
-    longitudes = np.linspace(start=min_lon, stop=max_lon, num=40)
+    latitudes = np.linspace(start=min_lat, stop=max_lat, num=num_lat)
+    longitudes = np.linspace(start=min_lon, stop=max_lon, num=num_long)
 
     interval = latitudes[1]-latitudes[0]
-    print(interval)
+    # print(interval)
 
     # print(f'latitudes is {latitudes}')
     # print(f'longitudes is {longitudes}')
 
     os.mkdir('../images')
-
-
 
     for idx_lat, latitude in tqdm(enumerate(latitudes)):
         for idx_long, longitude in tqdm(enumerate(longitudes)):
