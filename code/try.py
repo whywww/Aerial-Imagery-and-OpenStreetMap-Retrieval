@@ -1,12 +1,23 @@
 import requests
 import matplotlib.pyplot as plt
 import json
+import numpy as np
+import shutil
+import os
+from tqdm import tqdm
 
 
-def download_aerial_img(latitide, longitude):
+def download_aerial_img(latitude, longitude, filename):
+    """
+    Download 1 aerial image at given location and save it in 'images' folder.
 
-    zoom_level = 15
+    :param latitude:
+    :param longitude:
+    :param filename:
+    :return: Nothing
+    """
 
+    zoom_level = 20
     params = {
         'key': 'AphqStoMZgeqc0JPIWYZHoYD2YZPIXNi2oQ6KoNbaWJhghGWlk5nFWcDQwuI-4yk',
         'centerPoint': f'{latitude}, {longitude}',
@@ -18,14 +29,44 @@ def download_aerial_img(latitide, longitude):
 
     image_url = r.json()['resourceSets'][0]['resources'][0]['imageUrl']
 
-    print(image_url)
+    # print(image_url)
 
     r = requests.get(image_url)
 
-    with open('../images/picture.jpg', 'wb') as file:
+    with open(f'../images/{filename}.jpg', 'wb') as file:
         file.write(r.content)
 
 
+def get_aerial_img(bounding_box):
+    """
+    :param bounding_box: a list [min_lat, max_lat, min_lon, max_lon] containing the boundary of the images.
+    :return: Nothing
+    """
+    shutil.rmtree('../images')
+    min_lat, max_lat, min_lon, max_lon = bounding_box[0], bounding_box[1], bounding_box[2], bounding_box[3]
+
+
+
+    latitudes = np.linspace(start=min_lat, stop=max_lat, num=40)
+    longitudes = np.linspace(start=min_lon, stop=max_lon, num=40)
+
+    interval = latitudes[1]-latitudes[0]
+    print(interval)
+
+    # print(f'latitudes is {latitudes}')
+    # print(f'longitudes is {longitudes}')
+
+    os.mkdir('../images')
+
+
+
+    for idx_lat, latitude in tqdm(enumerate(latitudes)):
+        for idx_long, longitude in tqdm(enumerate(longitudes)):
+            filename = f'img_{idx_lat}_{idx_long}'
+            download_aerial_img(latitude, longitude, filename)
+
+
 if __name__ == '__main__':
-    latitude, longitude = 42.057749, -87.675948
-    download_aerial_img(latitude, longitude)
+    boundary = [42.048957, 42.063487, -87.680418, -87.669603, ]
+
+    get_aerial_img(boundary)
