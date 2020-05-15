@@ -65,7 +65,7 @@ def get_aerial_img(bounding_box):
 
     threads = []
     for idx_lat, latitude in enumerate(latitudes):
-        # time.sleep(2)
+        time.sleep(1)
         for idx_long, longitude in enumerate(longitudes):
             filename = f'img_{idx_lat}_{idx_long}'
 
