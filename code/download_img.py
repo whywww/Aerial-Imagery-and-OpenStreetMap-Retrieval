@@ -19,7 +19,7 @@ def download_aerial_img(latitude, longitude, filename):
     :return: Nothing
     """
     
-    zoom_level = 20
+    zoom_level = 19
     params = {
         'key': 'AphqStoMZgeqc0JPIWYZHoYD2YZPIXNi2oQ6KoNbaWJhghGWlk5nFWcDQwuI-4yk',
         'centerPoint': f'{latitude}, {longitude}',
@@ -45,7 +45,7 @@ def get_aerial_img(bounding_box):
     if 'images' in os.listdir('../'):
         shutil.rmtree('../images')
     min_lat, max_lat, min_lon, max_lon = bounding_box[0], bounding_box[1], bounding_box[2], bounding_box[3]
-    sample_interval = 0.0004
+    sample_interval = 0.001
 
     num_lat = int((max_lat - min_lat) / sample_interval)
     num_long = int((max_lon - min_lon) / sample_interval)
