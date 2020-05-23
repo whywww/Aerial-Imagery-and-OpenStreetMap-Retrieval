@@ -8,8 +8,8 @@ import json
 
 
 def get_my_map(mapArea, mapSize):
-    if 'images' in os.listdir('../'):
-        shutil.rmtree('../images')
+    if 'images' in os.listdir('./'):
+        shutil.rmtree('images')
 
     url = 'http://dev.virtualearth.net/REST/v1/Imagery/Map/Aerial?'
 
@@ -21,9 +21,9 @@ def get_my_map(mapArea, mapSize):
 
     r = requests.get(url, params=params)
 
-    os.mkdir('../images')
+    os.mkdir('images')
 
-    with open(f'../images/my_map_unprocessed.jpg', 'wb') as file:
+    with open(f'images/my_map_unprocessed.jpg', 'wb') as file:
         file.write(r.content)
 
 
@@ -46,7 +46,7 @@ def get_metadata(mapArea, mapSize):
 
 
 def process_my_map(bounding_box, map_area):
-    my_map = cv2.imread('../images/my_map_unprocessed.jpg')
+    my_map = cv2.imread('images/my_map_unprocessed.jpg')
     if my_map is None:
         print('No map loaded!')
         return
@@ -88,12 +88,12 @@ def process_my_map(bounding_box, map_area):
 
     my_map = my_map[top:bottom, left:right]
 
-    cv2.imwrite('../images/my_map.png', my_map)
+    cv2.imwrite('images/my_map.png', my_map)
 
 
 if __name__ == '__main__':
     # the area must have the format of [South Latitude, West Longitude, North Latitude, East Longitude]
-    map_area = [42.050993, -87.679421, 42.061049, -87.670194]
+    map_area = [42.047000, -87.682300, 42.062000, -87.668500]
 
     # width ranges between 80 and 2000, height ranges between 80 and 1500 (pixels)
     # if not set, default will be 350*350 pixel
