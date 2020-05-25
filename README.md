@@ -2,7 +2,7 @@
 
 See Documentation: [Doc](https://github.com/whywww/Aerial-Imagery-and-OpenStreetMap-Retrieval/blob/master/Aerial%20Imagery%20and%20OpenStreetMap%20Retrieval.pdf)
 
-Sample:
+### Example:
 
 Bounding Box: [42.047000, -87.682300, 42.062000, -87.668500] 
 
